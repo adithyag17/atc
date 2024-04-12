@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Airplanes</title>
+</head>
+<body>
+    <h1>Airplanes</h1>
+
+    <table>
+        <tr>
+            <th>Airplane ID</th>
+            <th>Airplane Model</th>
+            <th>Airplane Type</th>
+            <!-- Add more columns as needed -->
+        </tr>
+        <tr th:each="airplane : ${airplanes}">
+            <td th:text="${airplane.id}"></td>
+            <td th:text="${airplane.model}"></td>
+            <td th:text="${airplane.type}"></td>
+            <!-- Add more cells as needed -->
+        </tr>
+    </table>
+</body>
+</html>
