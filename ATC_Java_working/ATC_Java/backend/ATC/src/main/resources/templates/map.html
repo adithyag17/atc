@@ -1,97 +1,82 @@
 <!DOCTYPE html>
-<html lang="en">
-    
-    
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Realtime location tracker</title>
 
     <!-- leaflet css  -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+    />
 
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-        }
+      body {
+        margin: 0;
+        padding: 0;
+      }
 
-        #map {
-            width: 100%;
-            height: 100vh;
-        }
-
-        
+      #map {
+        width: 100%;
+        height: 100vh;
+      }
     </style>
-</head>
+  </head>
 
-<body>
-    <div id="map">
-    </div>
-    <h4>Flight Details:</h4>
-    <h5 th:text="${flight1}"></h5>
-    <h6 th:text="${lat1}"></h6>
-    <h6 th:text="${long1}"></h6>
+  <body>
+    <div id="map"></div>
+    <h4>Airplane Details:</h4>
+    <table>
+      <tr>
+        <th>Model</th>
+        <th>Type</th>
+        <th>X Coordinate</th>
+        <th>Y Coordinate</th>
+      </tr>
+      <tr th:each="plane : ${airplanes}">
+        <td th:text="${plane.model}"></td>
+        <td th:text="${plane.type}"></td>
+        <td th:text="${plane.xcord}"></td>
+        <td th:text="${plane.ycord}"></td>
+      </tr>
+    </table>
 
-    <h5 th:text="${flight2}"></h5>
-    <h6 th:text="${lat2}"></h6>
-    <h6 th:text="${long2}"></h6>
+    <!-- leaflet js  -->
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
 
-    
-    
-</body>
-</html>
+    <script th:inline="javascript">
+      var map = L.map("map").setView([20.17, 78.04], 6);
 
-<!-- leaflet js  -->
-<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+      var osm = L.tileLayer(
+        "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+        {
+          attribution:
+            '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        }
+      ).addTo(map);
 
-<script th:inline="javascript">
-    
+      var airplanes = /*[[${airplanes}]]*/ [];
 
-    var map = L.map('map').setView([20.17, 78.04], 6);
+      var markers = {};
+      airplanes.forEach(function (plane) {
+        var marker = L.marker([plane.xcord, plane.ycord]).addTo(map);
+        marker.bindPopup("Model: " + plane.model + "<br>Type: " + plane.type);
+        markers[plane.id] = marker;
+      });
 
-    var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(map);
-
-    
-
-    var lat1 = 25
-    var long1 = 75
-
-    var lat1 = 25;
-    var long1 = 75;
-    var lat2 = 27;
-    var long2 = 78;
-    var flight1 = "Flight A";
-    var flight2 = "Flight B";
-    
-
-    var points = [
-        { id: 1, name: flight1, lat: lat1 , long: long1 },
-        { id: 2, name: flight2, lat: lat2 , long: long2 }
-    ];
-
-    function updatePoints() {
-        points.forEach(function(point) {
-            point.lat += 0.35;
-            point.long += - 0.45;
-            console.log(point.lat,point.long)
-            markers[point.id].setLatLng([point.lat, point.long]);
+      function updateMarkers() {
+        airplanes.forEach(function (plane) {
+          // Generate random values for direction and update coordinates
+          var randomX = Math.random() * 0.1 - 0.05; // Random value between -0.05 and 0.05
+          var randomY = Math.random() * 0.1 - 0.05; // Random value between -0.05 and 0.05
+          plane.xcord += randomX;
+          plane.ycord += randomY;
+          markers[plane.id].setLatLng([plane.xcord, plane.ycord]);
         });
-    }
+      }
 
-    var markers = {};
-    points.forEach(function(point) {
-        var marker = L.circleMarker([point.lat, point.long], {
-            radius: 5,
-            fillColor: 'blue', 
-            fillOpacity: 1 
-        }).addTo(map);
-        marker.bindPopup(point.name);
-        markers[point.id] = marker;
-    });
-
-    setInterval(updatePoints, 3000);
-    
-</script>
+      setInterval(updateMarkers, 3000);
+    </script>
+  </body>
+</html>
