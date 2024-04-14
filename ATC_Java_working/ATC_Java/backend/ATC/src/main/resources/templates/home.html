@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Home page</title>
+</head>
+<body>
+    
+</body>
+</html>
+
+<!-- newpage.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Home Page</title>
+</head>
+<body>
+    <h1>Welcome</h1>
+    <h2 th:text="${message}"></h2>
+    <form action="/map" method="get">
+        <button type="submit">Go to Map</button>
+    </form>
+</body>
+</html>

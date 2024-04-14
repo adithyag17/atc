@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Realtime location tracker</title>
+
+    <!-- leaflet css  -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        #map {
+            width: 100%;
+            height: 100vh;
+        }
+
+        
+    </style>
+</head>
+
+<body>
+    <div id="map">
+    </div>
+    <h4>Flight Details:</h4>
+    <h5 th:text="${flight1}"></h5>
+    <h6 th:text="${lat1}"></h6>
+    <h6 th:text="${long1}"></h6>
+
+    <h5 th:text="${flight2}"></h5>
+    <h6 th:text="${lat2}"></h6>
+    <h6 th:text="${long2}"></h6>
+
+    
+    
+</body>
+</html>
+
+<!-- leaflet js  -->
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+
+<script th:inline="javascript">
+    
+
+    var map = L.map('map').setView([20.17, 78.04], 6);
+
+    var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    
+
+    var lat1 = 25
+    var long1 = 75
+
+    var lat1 = 25;
+    var long1 = 75;
+    var lat2 = 27;
+    var long2 = 78;
+    var flight1 = "Flight A";
+    var flight2 = "Flight B";
+    
+
+    var points = [
+        { id: 1, name: flight1, lat: lat1 , long: long1 },
+        { id: 2, name: flight2, lat: lat2 , long: long2 }
+    ];
+
+    function updatePoints() {
+        points.forEach(function(point) {
+            point.lat += 0.35;
+            point.long += - 0.45;
+            console.log(point.lat,point.long)
+            markers[point.id].setLatLng([point.lat, point.long]);
+        });
+    }
+
+    var markers = {};
+    points.forEach(function(point) {
+        var marker = L.circleMarker([point.lat, point.long], {
+            radius: 5,
+            fillColor: 'blue', 
+            fillOpacity: 1 
+        }).addTo(map);
+        marker.bindPopup(point.name);
+        markers[point.id] = marker;
+    });
+
+    setInterval(updatePoints, 3000);
+    
+</script>
