@@ -57,8 +57,8 @@
       ).addTo(map);
 
       var airplanes = /*[[${airplanes}]]*/ [];
-
       var markers = {};
+
       airplanes.forEach(function (plane) {
         var marker = L.marker([plane.xcord, plane.ycord]).addTo(map);
         marker.bindPopup("Model: " + plane.model + "<br>Type: " + plane.type);
@@ -66,14 +66,34 @@
       });
 
       function updateMarkers() {
-        airplanes.forEach(function (plane) {
-          // Generate random values for direction and update coordinates
-          var randomX = Math.random() * 0.1 - 0.05; // Random value between -0.05 and 0.05
-          var randomY = Math.random() * 0.1 - 0.05; // Random value between -0.05 and 0.05
-          plane.xcord += randomX;
-          plane.ycord += randomY;
-          markers[plane.id].setLatLng([plane.xcord, plane.ycord]);
+        airplanes.forEach(function (plane1, index1) {
+          airplanes.forEach(function (plane2, index2) {
+            if (index1 < index2) {
+              // Avoid comparing the same pair twice
+              var distance = Math.sqrt(
+                Math.pow(plane2.xcord - plane1.xcord, 2) +
+                  Math.pow(plane2.ycord - plane1.ycord, 2)
+              );
+              if (distance < 1) {
+                // Adjust the threshold distance as needed
+                sendCollisionRequest(plane1.model, plane2.model);
+              }
+            }
+          });
         });
+      }
+
+      function sendCollisionRequest(model1, model2) {
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "http://localhost:7676/collision-catcher", true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.onreadystatechange = function () {
+          if (xhr.readyState === 4 && xhr.status === 200) {
+            console.log("Collision detected! Request sent.");
+          }
+        };
+        var data = JSON.stringify({ model1: model1, model2: model2 });
+        xhr.send(data);
       }
 
       setInterval(updateMarkers, 3000);

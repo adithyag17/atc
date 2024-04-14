@@ -25,7 +25,6 @@ public class Application implements CommandLineRunner {
     public void run(String... args) throws Exception {
         userService.printAllUsers();
         airplaneService.printAllAirplanes();
-        System.out.println("kernel");
 
     }
 }
