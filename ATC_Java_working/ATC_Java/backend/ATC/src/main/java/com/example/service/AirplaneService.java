@@ -31,6 +31,11 @@ public class AirplaneService {
 
     public void printAllAirplanes() {
         List<Airplanes> airplanes = getAllAirplanes();
-        airplanes.forEach(airplane -> System.out.println("Airplane ID: " + airplane.getId() + ", Model: " + airplane.getModel() + ", Type: " + airplane.getType()));
+        airplanes.forEach(airplane -> System.out.println("Airplane ID: " + airplane.getId() 
+        + ", Model: " + airplane.getModel() 
+        + ", Type: " + airplane.getType() 
+        + ", X Coordinate: " + airplane.getXcord() 
+        + ", Y Coordinate: " + airplane.getYcord()));
+
     }
 }

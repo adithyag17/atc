@@ -1,4 +1,5 @@
 package com.example.model;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -10,22 +11,30 @@ public class Airplanes {
 
     private String model;
     private String type;
-
+    private Integer xcord; // New field for x coordinate
+    private Integer ycord; // New field for y coordinate
+    
     public Airplanes() {}
 
-    public Airplanes(Long id,String model, String type) {
+    public Airplanes(Long id, String model, String type, Integer xcord, Integer ycord) {
         this.id = id;
         this.model = model;
         this.type = type;
+        this.xcord = xcord;
+        this.ycord = ycord;
     }
 
     // Getters and setters
-    public String getModel() {
-        return model;
-    }
-
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getModel() {
+        return model;
     }
 
     public void setModel(String model) {
@@ -40,7 +49,19 @@ public class Airplanes {
         this.type = type;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public Integer getXcord() {
+        return xcord;
+    }
+
+    public void setXcord(Integer xcord) {
+        this.xcord = xcord;
+    }
+
+    public Integer getYcord() {
+        return ycord;
+    }
+
+    public void setYcord(Integer ycord) {
+        this.ycord = ycord;
     }
 }
