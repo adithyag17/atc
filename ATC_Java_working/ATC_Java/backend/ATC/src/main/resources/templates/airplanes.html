@@ -60,5 +60,65 @@
         </tr>
       </tbody>
     </table>
+
+    <!-- Form for collision detection -->
+    <form
+      id="collisionForm"
+      action="localhost:7676/detect-collision"
+      method="post"
+    >
+      <!-- Add hidden fields for airplane IDs -->
+      <input type="hidden" id="airplaneId1" name="airplaneId1" />
+      <input type="hidden" id="airplaneId2" name="airplaneId2" />
+      <input type="submit" value="Detect Collision" />
+    </form>
+
+    <script>
+      // Function to check for collisions
+      function checkCollisions() {
+        const airplanes = document.querySelectorAll("tr");
+        const airplaneCoordinates = {};
+
+        airplanes.forEach((airplane) => {
+          const id = airplane.querySelector("td:nth-child(1)").innerText;
+          const xcord = parseInt(
+            airplane.querySelector("td:nth-child(4)").innerText
+          );
+          const ycord = parseInt(
+            airplane.querySelector("td:nth-child(5)").innerText
+          );
+          airplaneCoordinates[id] = { xcord, ycord };
+        });
+
+        // Check for collisions
+        Object.keys(airplaneCoordinates).forEach((id1) => {
+          Object.keys(airplaneCoordinates).forEach((id2) => {
+            if (id1 !== id2) {
+              const distance = Math.sqrt(
+                Math.pow(
+                  airplaneCoordinates[id2].xcord -
+                    airplaneCoordinates[id1].xcord,
+                  2
+                ) +
+                  Math.pow(
+                    airplaneCoordinates[id2].ycord -
+                      airplaneCoordinates[id1].ycord,
+                    2
+                  )
+              );
+              if (distance < 10) {
+                // Adjust the threshold distance as needed
+                document.getElementById("airplaneId1").value = id1;
+                document.getElementById("airplaneId2").value = id2;
+                document.getElementById("collisionForm").submit();
+              }
+            }
+          });
+        });
+      }
+
+      // Run the collision check every 3 seconds (adjust interval as needed)
+      setInterval(checkCollisions, 3000);
+    </script>
   </body>
 </html>
