@@ -2,24 +2,63 @@
 <html xmlns:th="http://www.thymeleaf.org">
   <head>
     <title>Airplanes</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f2f2f2;
+        margin: 0;
+        padding: 20px;
+      }
+
+      h1 {
+        color: #333333;
+        text-align: center;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+      }
+
+      th,
+      td {
+        padding: 10px;
+        border-bottom: 1px solid #dddddd;
+        text-align: left;
+      }
+
+      th {
+        background-color: #f2f2f2;
+        color: #333333;
+      }
+
+      tr:hover {
+        background-color: #e6f7ff;
+      }
+    </style>
   </head>
   <body>
-    <h1>Airplanes</h1>
+    <h1>Airplanes List</h1>
     <table>
-      <tr>
-        <th>Airplane ID</th>
-        <th>Airplane Model</th>
-        <th>Airplane Type</th>
-        <!-- Add more columns as needed -->
-      </tr>
-      <tr th:each="airplane : ${airplanes}">
-        <td th:text="${airplane.id}"></td>
-        <td th:text="${airplane.model}"></td>
-        <td th:text="${airplane.type}"></td>
-        <td th:text="${airplane.xcord}"></td>
-        <td th:text="${airplane.ycord}"></td>
-        <!-- Add more cells as needed -->
-      </tr>
+      <thead>
+        <tr>
+          <th>Airplane ID</th>
+          <th>Airplane Model</th>
+          <th>Airplane Type</th>
+          <th>X Coordinate</th>
+          <th>Y Coordinate</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="airplane : ${airplanes}">
+          <td th:text="${airplane.id}"></td>
+          <td th:text="${airplane.model}"></td>
+          <td th:text="${airplane.type}"></td>
+          <td th:text="${airplane.xcord}"></td>
+          <td th:text="${airplane.ycord}"></td>
+        </tr>
+      </tbody>
     </table>
   </body>
 </html>

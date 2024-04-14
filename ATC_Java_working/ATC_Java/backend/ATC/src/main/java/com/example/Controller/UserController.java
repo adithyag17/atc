@@ -40,12 +40,14 @@ public class UserController {
     }
 
     @PostMapping("/auth")
-    public String authenticateUser(@ModelAttribute Users authRequest) {
-        Users user = userService.authenticateUser(authRequest.getUsername(), authRequest.getPassword());
-        if (user != null) {
-            return "redirect:/users";
-        } else {
-            return "redirect:/login"; // redirect to the login view if authentication fails
+    public String authenticateUser(Users user, Model model) {
+        try {
+            Users authenticatedUser = userService.authenticateUser(user.getUsername(), user.getPassword(),user.getPassword());
+            model.addAttribute("successMessage", "Login successful!");
+            return "redirect:/airplanes";
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("successMessage", "");
+            return "redirect:/users"; // Redirect back to login page on authentication failure
         }
     }
 }

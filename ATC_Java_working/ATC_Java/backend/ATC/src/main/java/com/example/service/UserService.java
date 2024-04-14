@@ -22,11 +22,11 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public Users authenticateUser(String username, String password) {
+    public Users authenticateUser(String username,String password,String role) {
         Optional<Users> optionalUser = userRepository.findByUsername(username);
         if (optionalUser.isPresent()) {
             Users user = optionalUser.get();
-            if (user.getPassword().equals(password)) {
+            if (user.getPassword().equals(password) && user.getRole().equals("admin")) {
                 return user;
             }
         }
