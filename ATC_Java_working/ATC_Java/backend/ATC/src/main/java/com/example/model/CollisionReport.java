@@ -1,29 +1,29 @@
 package com.example.model;
 
-import java.time.LocalDateTime;
 import jakarta.persistence.*;
 
 @Entity
-public class CollisionReport {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String model1;
-    private String model2;
-    private LocalDateTime time;
-    private double xcord;
-    private double ycord;
+public class CollisionReport extends Report {
 
-    // Constructor
-    public CollisionReport(String model1, String model2, LocalDateTime time, double xcord, double ycord) {
-        this.model1 = model1;
-        this.model2 = model2;
-        this.time = time;
-        this.xcord = xcord;
-        this.ycord = ycord;
+    @Column(nullable = false)
+    private String model1;
+
+    @Column(nullable = false)
+    private String model2;
+
+    @Column(nullable = false)
+    private String timeOfCollision;
+
+    public CollisionReport() {
     }
 
-    // Getters and Setters
+    public CollisionReport(String title, String content, String model1, String model2, String timeOfCollision) {
+        super(title, content);
+        this.model1 = model1;
+        this.model2 = model2;
+        this.timeOfCollision = timeOfCollision;
+    }
+
     public String getModel1() {
         return model1;
     }
@@ -40,27 +40,11 @@ public class CollisionReport {
         this.model2 = model2;
     }
 
-    public LocalDateTime getTime() {
-        return time;
+    public String getTimeOfCollision() {
+        return timeOfCollision;
     }
 
-    public void setTime(LocalDateTime time) {
-        this.time = time;
-    }
-
-    public double getXcord() {
-        return xcord;
-    }
-
-    public void setXcord(double xcord) {
-        this.xcord = xcord;
-    }
-
-    public double getYcord() {
-        return ycord;
-    }
-
-    public void setYcord(double ycord) {
-        this.ycord = ycord;
+    public void setTimeOfCollision(String timeOfCollision) {
+        this.timeOfCollision = timeOfCollision;
     }
 }
