@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Collision Report</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <h2>Collision Report</h2>
+    <table id="collisionTable">
+        <tr>
+            <th>Airplane 1 Type</th>
+            <th>Airplane 2 Type</th>
+            <th>Time of Collision</th>
+            <th>Coordinates</th>
+        </tr>
+        <!-- Collision reports will be populated here -->
+    </table>
+
+    <script>
+        function loadCollisionData() {
+            fetch('/collision-data')
+                .then(response => response.json())
+                .then(data => {
+                    var table = document.getElementById('collisionTable');
+                    data.forEach(collision => {
+                        var row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${collision.model1}</td>
+                            <td>${collision.model2}</td>
+                            <td>${collision.time}</td>
+                            <td>${collision.xcord}, ${collision.ycord}</td>
+                        `;
+                        table.appendChild(row);
+                    });
+                });
+        }
+
+        document.addEventListener('DOMContentLoaded', loadCollisionData);
+    </script>
+</body>
+</html>
