@@ -26,22 +26,8 @@
 
   <body>
     <div id="map"></div>
-    <h4>Airplane Details:</h4>
-    <table>
-      <tr>
-        <th>Model</th>
-        <th>Type</th>
-        <th>X Coordinate</th>
-        <th>Y Coordinate</th>
-      </tr>
-      <tr th:each="plane : ${airplanes}">
-        <td th:text="${plane.model}"></td>
-        <td th:text="${plane.type}"></td>
-        <td th:text="${plane.xcord}"></td>
-        <td th:text="${plane.ycord}"></td>
-      </tr>
-    </table>
-
+      <!-- add a button to go to the /collisionreport route-->
+      <a href="/collisionreport" class="button">View Collision Report</a>
     <!-- leaflet js  -->
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
 
