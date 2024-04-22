@@ -30,7 +30,7 @@ public class ATC {
     }
 
     public void addUser(Users user) {
-        user.setId((long)usersList.size() + 1);
+        user.setId((long)usersList.size() + 2);
         user.setRole("user");
         usersList.add(user);
         userRepository.save(user);

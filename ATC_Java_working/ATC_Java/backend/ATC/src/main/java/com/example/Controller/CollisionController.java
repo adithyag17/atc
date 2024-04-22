@@ -20,7 +20,7 @@ public class CollisionController {
     public String handleCollisionRequest(@RequestBody CollisionReport collisionReport) {
         String model1 = collisionReport.getModel1();
         String model2 = collisionReport.getModel2();
-        System.out.println("Collision detected between " + model1 + " and " + model2);
+        System.out.println("Collision detected between " + model1 + " and " + model2                                                                               + " at 10:00 AM");
         System.out.println(collisionReport);
         //collisionReportService.saveCollisionReport(collisionReport);
         return "Collision handled successfully";

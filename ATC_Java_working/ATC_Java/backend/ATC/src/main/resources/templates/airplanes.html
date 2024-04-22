@@ -39,6 +39,7 @@
     </style>
   </head>
   <body>
+    <h2 th:text="${successMessage}"></h2>
     <h1>Airplanes List</h1>
     <table>
       <thead>
@@ -70,7 +71,6 @@
       <!-- Add hidden fields for airplane IDs -->
       <input type="hidden" id="airplaneId1" name="airplaneId1" />
       <input type="hidden" id="airplaneId2" name="airplaneId2" />
-      <input type="submit" value="Detect Collision" />
     </form>
 
     <script>
@@ -120,5 +120,6 @@
       // Run the collision check every 3 seconds (adjust interval as needed)
       setInterval(checkCollisions, 3000);
     </script>
+    <button onclick="window.location.href='/map'">Go to Map</button>
   </body>
 </html>

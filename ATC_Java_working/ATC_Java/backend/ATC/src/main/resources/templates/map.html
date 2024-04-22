@@ -82,6 +82,21 @@
         xhr.send(data);
       }
 
+      function updatePoints() {
+          airplanes.forEach(function(plane1, index1) {
+              airplanes.forEach(function(plane2, index2) {
+                  if (index1 < index2) {
+                      plane1.xcord += 0.2;
+                      plane1.ycord -= 0.1;
+                      plane2.xcord -= 0.1;
+                      plane2.ycord += 0.1;
+                      markers[plane1.id].setLatLng([plane1.xcord, plane1.ycord]);
+                      markers[plane2.id].setLatLng([plane2.xcord, plane2.ycord]);
+                  }
+              });
+          });
+      }
+      setInterval(updatePoints, 1500);
       setInterval(updateMarkers, 3000);
     </script>
   </body>
