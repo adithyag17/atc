@@ -18,11 +18,21 @@ public class CollisionController {
 
     @PostMapping("/collision-catcher")
     public String handleCollisionRequest(@RequestBody CollisionReport collisionReport) {
-        String model1 = collisionReport.getModel1();
-        String model2 = collisionReport.getModel2();
-        System.out.println("Collision detected between " + model1 + " and " + model2                                                                               + " at 10:00 AM");
-        System.out.println(collisionReport);
+        CollisionReportDecorator decoratedReport = new CollisionReportDecorator(collisionReport);
+        String collisionMessage = decoratedReport.displayCollisionMessage(collisionReport.getModel1(), collisionReport.getModel2());
+        System.out.println(collisionMessage);
         //collisionReportService.saveCollisionReport(collisionReport);
         return "Collision handled successfully";
+    }
+}
+class CollisionReportDecorator extends CollisionReport {
+    private CollisionReport collisionReport;
+
+    public CollisionReportDecorator(CollisionReport collisionReport) {
+        this.collisionReport = collisionReport;
+    }
+    public String displayCollisionMessage(String model1, String model2) {
+        System.out.println("Collision detected between " + model1 + " and " + model2                                                                               + " at 10:00 AM");
+        return "Collision detected between " + model1 + " and " + model2 + " at 10:00 AM";
     }
 }
